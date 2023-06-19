@@ -1,0 +1,17 @@
+const express = require('express')
+const dotenv = require('dotenv')
+const {notfound,errorHandler} = require('./middleware/errorMiddleware')
+const connectDb = require('./config/db')
+const userRoutes = require("./routes/userRoutes")
+dotenv.config()
+connectDb()
+const port = process.env.PORT || 5000
+const app = express()
+app.use(express.json())
+app.use(express.urlencoded({extended:true}))
+app.use(userRoutes)
+app.use(notfound)
+app.use(errorHandler)
+app.listen(port ,()=>{
+    console.log(`server started on port ${port}`)
+})
